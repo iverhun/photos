@@ -1,7 +1,25 @@
 'use strict';
 
-angular.module('example366', ['ngAnimate', 'ngTouch'])
-    .controller('MainCtrl', function ($scope, $http) {
+angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys'])
+    .controller('MainCtrl', function ($scope, $http, hotkeys) {
+
+        // You can pass it an object. This hotkey will not be unbound unless manually removed
+        // using the hotkeys.del() method
+        hotkeys.add({
+            combo: 'right',
+            description: 'This one goes to 11',
+            callback: function() {
+                $scope.showNext()
+            }
+        });
+
+        hotkeys.add({
+            combo: 'left',
+            description: 'This one goes to 11',
+            callback: function() {
+                $scope.showPrev()
+            }
+        });
 
         // Set of Photos
         $scope.photos = [];
