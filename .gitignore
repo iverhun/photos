@@ -1,0 +1,16 @@
+target
+*.iml
+cobertura.ser
+.DS_Store
+.idea/
+**/bin/
+
+# JRebel
+rebel.xml
+
+# Logs
+logs/
+*.log
+
+build
+.gitignore.swp
