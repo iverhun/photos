@@ -33,11 +33,12 @@
 <div class="container slider">
 
     <!-- enumerate all photos -->
-    <img ng-repeat="photo in photos" class="slide" ng-show="isActive($index)" ng-src="{{photo.src}}" width="100%"/>
+    <!--<img ng-repeat="photo in photos" class="slide" ng-show="isActive($index)" ng-src="{{photo.src}}" width="100%"/>-->
 
+    <img class="slide" ng-src="{{photos[$index].src}}" width="100%"/>
     <!-- prev / next controls -->
-    <a class="arrow prev" href="#" ng-click="showPrev()">&lt;-</a>
-    <a class="arrow next" href="#" ng-click="showNext()">-&gt;</a>
+    <!--<a class="arrow prev" href="#" ng-click="showPrev()">&lt;-</a>-->
+    <!--<a class="arrow next" href="#" ng-click="showNext()">-&gt;</a>-->
 
     <!-- extra navigation controls -->
     <ul class="nav">
@@ -50,11 +51,12 @@
 <div class="container slider">
 
     <!-- enumerate all photos -->
-    <img ng-repeat="photo in photos" class="slide2" ng-show="isActive2($index)" ng-src="{{photo.src}}" width="100%"/>
+    <!--<img ng-repeat="photo in photos" class="slide2" ng-show="isActive2($index)" ng-src="{{photo.src}}" width="100%"/>-->
+    <img class="slide" ng-src="{{photos[$index + 1].src}}" width="100%"/>
 
     <!-- prev / next controls -->
-    <a class="arrow prev" href="#" ng-click="showPrev()">&lt;-</a>
-    <a class="arrow next" href="#" ng-click="showNext()">-&gt;</a>
+    <!--<a class="arrow prev" href="#" ng-click="showPrev()">&lt;-</a>-->
+    <!--<a class="arrow next" href="#" ng-click="showNext()">-&gt;</a>-->
 
     <!-- extra navigation controls -->
     <ul class="nav">
