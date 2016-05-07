@@ -31,11 +31,11 @@
 
 <!-- slider container -->
 <div class="container slider">
-    <h3 style="color: white;">{{_Index1}}/{{total()}}</h3>
+    <h3 style="color: white;">{{_Index1 + 1}}/{{total()}}: {{photos[_Index1].desc}}</h3>
     <img class="slide" ng-src="{{photos[_Index1].src}}" width="100%"/>
 </div>
 <div class="container slider">
-    <h3 style="color: white;">{{_Index2}}/{{total()}}</h3>
+    <h3 style="color: white;">{{_Index2 + 1}}/{{total()}}: {{photos[_Index2].desc}}</h3>
     <img class="slide" ng-src="{{photos[_Index2].src}}" width="100%"/>
 
     <!-- prev / next controls -->
