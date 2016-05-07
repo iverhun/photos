@@ -6,13 +6,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
-
-import static com.sun.tools.javac.code.Lint.LintCategory.PATH;
 
 /**
  * TODO: Document me
@@ -37,7 +34,7 @@ public class HelloController {
     public List<PhotosList> photos() throws IOException {
         return Files.list(Paths.get(PATH))
                     .filter(p -> !p.getFileName().toString().endsWith("MOV"))
-                    //.limit(10)
+                    .limit(10)
                     .map(PhotosList::new).collect(Collectors.toList());
     }
 

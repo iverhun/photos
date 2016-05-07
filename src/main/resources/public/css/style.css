@@ -94,12 +94,7 @@ html,body {
 }
 .slide {
     position: absolute;
-    top: 0;
-    left: 0;
-}
-.slide2 {
-    position: absolute;
-    top: 0;
+    top: 40px;
     left: 0;
 }
 .slide.ng-hide-add {

@@ -9,7 +9,8 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys'])
             combo: 'right',
             description: 'This one goes to 11',
             callback: function() {
-                $scope.showNext()
+                console.log("right")
+                $scope.moveToNext()
             }
         });
 
@@ -17,7 +18,8 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys'])
             combo: 'left',
             description: 'This one goes to 11',
             callback: function() {
-                $scope.showPrev()
+                console.log("left")
+                $scope.moveToPrev()
             }
         });
 
@@ -29,29 +31,30 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys'])
         });
 
         // initial image index
-        $scope._Index = 0;
-
-        // if a current image is the same as requested image
-        $scope.isActive = function (index) {
-            return $scope._Index === index;
-        };
-
-        $scope.isActive2 = function (index) {
-            return $scope._Index === index - 1;
-        };
+        $scope._Index1 = 0;
+        $scope._Index2 = 1;
 
         // show prev image
-        $scope.showPrev = function () {
-            $scope._Index = ($scope._Index > 0) ? --$scope._Index : $scope.photos.length - 1;
+        $scope.moveToPrev = function () {
+            $scope._Index1 = prev($scope._Index1);
+            $scope._Index2 = prev($scope._Index2);
         };
 
         // show next image
-        $scope.showNext = function () {
-            $scope._Index = ($scope._Index < $scope.photos.length - 1) ? ++$scope._Index : 0;
+        $scope.moveToNext = function () {
+            $scope._Index1 = next($scope._Index1);
+            $scope._Index2 = next($scope._Index2);
         };
 
-        // show a certain image
-        $scope.showPhoto = function (index) {
-            $scope._Index = index;
-        };
+        $scope.total = function () {
+            return $scope.photos.length
+        }
+
+        var next = function (index) {
+            return (index < $scope.photos.length - 1) ? ++index : 0;
+        }
+
+        var prev = function (index) {
+            return (index > 0) ? --index : $scope.photos.length - 1;
+        }
     });

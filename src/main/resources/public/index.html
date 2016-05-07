@@ -31,39 +31,23 @@
 
 <!-- slider container -->
 <div class="container slider">
-
-    <!-- enumerate all photos -->
-    <!--<img ng-repeat="photo in photos" class="slide" ng-show="isActive($index)" ng-src="{{photo.src}}" width="100%"/>-->
-
-    <img class="slide" ng-src="{{photos[$index].src}}" width="100%"/>
-    <!-- prev / next controls -->
-    <!--<a class="arrow prev" href="#" ng-click="showPrev()">&lt;-</a>-->
-    <!--<a class="arrow next" href="#" ng-click="showNext()">-&gt;</a>-->
-
-    <!-- extra navigation controls -->
-    <ul class="nav">
-        <!--<li ng-repeat="photo in photos" ng-class="{'active':isActive($index)}">-->
-            <!--<img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />-->
-        <!--</li>-->
-    </ul>
-
+    <h3 style="color: white;">{{_Index1}}/{{total()}}</h3>
+    <img class="slide" ng-src="{{photos[_Index1].src}}" width="100%"/>
 </div>
 <div class="container slider">
-
-    <!-- enumerate all photos -->
-    <!--<img ng-repeat="photo in photos" class="slide2" ng-show="isActive2($index)" ng-src="{{photo.src}}" width="100%"/>-->
-    <img class="slide" ng-src="{{photos[$index + 1].src}}" width="100%"/>
+    <h3 style="color: white;">{{_Index2}}/{{total()}}</h3>
+    <img class="slide" ng-src="{{photos[_Index2].src}}" width="100%"/>
 
     <!-- prev / next controls -->
     <!--<a class="arrow prev" href="#" ng-click="showPrev()">&lt;-</a>-->
     <!--<a class="arrow next" href="#" ng-click="showNext()">-&gt;</a>-->
 
     <!-- extra navigation controls -->
-    <ul class="nav">
+    <!--<ul class="nav">-->
         <!--<li ng-repeat="photo in photos" ng-class="{'active':isActive($index)}">-->
         <!--<img src="{{photo.src}}" alt="{{photo.desc}}" title="{{photo.desc}}" ng-click="showPhoto($index);" />-->
         <!--</li>-->
-    </ul>
+    <!--</ul>-->
 
 </div>
 </body>
