@@ -1,9 +1,12 @@
 package test.photos;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import test.photos.model.Image;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,6 +17,8 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
+import static java.nio.file.Files.list;
+
 @RestController
 public class HelloController {
 
@@ -22,9 +27,12 @@ public class HelloController {
     private final Set<String> removedPhotos = new HashSet<>();
     private final Stack<UpdateCommand> updateCommands = new Stack<>();
 
+    @Autowired
+    private ImageService imageService;
+
     @RequestMapping("/photos")
     public List<PhotosList> photos() throws IOException {
-        return Files.list(Paths.get(PATH))
+        return list(Paths.get(PATH))
                     .filter(p -> !p.getFileName().toString().endsWith("MOV"))
                     .limit(10)
                     .map(PhotosList::new)
@@ -42,6 +50,29 @@ public class HelloController {
     public void undo() throws IOException {
         UpdateCommand updateCommand = updateCommands.pop();
         markPhoto(updateCommand.imgPath, updateCommand.action.getUndoAction());
+    }
+
+
+    @RequestMapping(value = "/photos/testList", method = RequestMethod.GET)
+    public List<Image> testList() throws IOException {
+        return imageService.listImages();
+    }
+
+    @RequestMapping(value = "/photos/testGet", method = RequestMethod.GET)
+    public Image testGet(@RequestParam("src") String src) throws IOException {
+        return imageService.getImage(src);
+    }
+
+    @RequestMapping(value = "/photos/testSave", method = RequestMethod.POST)
+    public void testSave() throws IOException {
+        List<Image> images = Files.list(Paths.get(PATH))
+             .filter(p -> !p.getFileName().toString().endsWith("MOV"))
+             .limit(10)
+             .map(Image::new)
+             .filter(pl -> !removedPhotos.contains(pl.getDesc()))
+             .collect(Collectors.toList());
+
+        imageService.saveImages(images);
     }
 
     private void markPhoto(String imgPath, Action action) {

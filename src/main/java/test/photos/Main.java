@@ -6,9 +6,6 @@ import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import java.util.Arrays;
 
 /**
  * TODO: Document me
@@ -17,6 +14,7 @@ import java.util.Arrays;
  */
 @SpringBootApplication
 public class Main {
+
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Main.class, args);
     }
