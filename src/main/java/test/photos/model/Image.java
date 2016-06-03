@@ -3,6 +3,7 @@ package test.photos.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.orientechnologies.orient.core.annotation.OVersion;
 
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.nio.file.Path;
 
@@ -10,24 +11,43 @@ import java.nio.file.Path;
 public class Image implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Id
+    private String id;
+
     private String src;
-    private String desc;
+    private String description;
     private boolean removed;
 
+    public Object getVersion() {
+        return version;
+    }
+
+    public void setVersion(Object version) {
+        this.version = version;
+    }
+
     @OVersion
-    private Long version;
+    private Object version;
 
     public Image() {
     }
 
-    public Image(String src, String desc) {
+    public Image(String src, String description) {
         this.src = src;
-        this.desc = desc;
+        this.description = description;
     }
 
     public Image(Path path) {
         this.src = "res/" + path.getFileName().toString();
-        this.desc = path.getFileName().toString();
+        this.description = path.getFileName().toString();
     }
 
     public String getSrc() {
@@ -38,20 +58,12 @@ public class Image implements Serializable {
         this.src = src;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public boolean isRemoved() {

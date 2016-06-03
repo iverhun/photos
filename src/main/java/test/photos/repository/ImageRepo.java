@@ -10,21 +10,38 @@ import test.photos.model.Image;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sun.tools.doclets.formats.html.markup.HtmlStyle.description;
+
 /**
  * @author Ivan Verhun (ivanver@jfrog.com)
  */
 @Repository
-//public interface ImageRepo extends CrudRepository<Image, Long> {
 public class ImageRepo {
 
     @Autowired
     private OObjectDatabaseTx objectDb;
 
+    public List<Image> findByDescription(String description) {
+        ODatabaseRecordThreadLocal.INSTANCE.set(objectDb.getUnderlying());
+
+        List<Image> result = objectDb.query(
+                new OSQLSynchQuery<Image>("SELECT * FROM Image WHERE description = '" + description + "'"));
+        return result;
+    }
+
     public List<Image> findBySrc(String src) {
         ODatabaseRecordThreadLocal.INSTANCE.set(objectDb.getUnderlying());
 
         List<Image> result = objectDb.query(
-                new OSQLSynchQuery<Image>("select * from Image where src = " + src));
+                new OSQLSynchQuery<Image>("SELECT * FROM Image WHERE src = '" + src + "'"));
+        return result;
+    }
+
+    public List<Image> findNotRemoved() {
+        ODatabaseRecordThreadLocal.INSTANCE.set(objectDb.getUnderlying());
+
+        List<Image> result = objectDb.query(
+                new OSQLSynchQuery<Image>("SELECT * FROM Image WHERE removed = false"));
         return result;
     }
 
@@ -38,8 +55,18 @@ public class ImageRepo {
         return images;
     }
 
+    public Image save(Image image) {
+        ODatabaseRecordThreadLocal.INSTANCE.set(objectDb.getUnderlying());
+        return objectDb.save(image);
+    }
+
     public void save(List<Image> images) {
         ODatabaseRecordThreadLocal.INSTANCE.set(objectDb.getUnderlying());
         images.stream().forEach(i -> objectDb.save(i));
+    }
+
+    public long count() {
+        ODatabaseRecordThreadLocal.INSTANCE.set(objectDb.getUnderlying());
+        return objectDb.countClass(Image.class);
     }
 }

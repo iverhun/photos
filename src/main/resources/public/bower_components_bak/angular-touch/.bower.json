@@ -1,0 +1,15 @@
+{
+  "name": "angular-touch",
+  "version": "1.5.6",
+  "license": "MIT",
+  "main": "./angular-touch.js",
+  "ignore": [],
+  "dependencies": {
+    "angular": "1.5.6"
+  },
+  "_source": "art://angular/bower-angular-touch",
+  "_target": "^1.5.6",
+  "_release": "v1.5.6",
+  "_originalSource": "angular-touch",
+  "_direct": true
+}

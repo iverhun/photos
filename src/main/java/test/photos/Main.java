@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 /**
- * TODO: Document me
- *
  * @author Ivan Verhun (ivanver@jfrog.com)
  */
 @SpringBootApplication
@@ -24,7 +22,7 @@ public class Main {
         @Override
         public void addResourceHandlers(ResourceHandlerRegistry registry) {
             registry.addResourceHandler("/res/**")
-                    .addResourceLocations("file://" + HelloController.PATH)
+                    .addResourceLocations("file://" + PhotosController.PATH)
                     .addResourceLocations("classpath:/resources/public")
                     .addResourceLocations("classpath:/resources")
                     .addResourceLocations("classpath:/**");
