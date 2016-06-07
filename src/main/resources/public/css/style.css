@@ -5,7 +5,8 @@ html,body {
 }
 
 .container {
-    display: inline-block;
+    display: inline-flex;
+    align-items: baseline;
 }
 
 .logo {
@@ -75,7 +76,7 @@ html,body {
 .slider {
     border: 5px solid #FFFFFF;
     border-radius: 5px;
-    height:     70%;
+    height:     90%;
     margin: 5px auto;
     position: relative;
     width: 45%;
@@ -93,35 +94,16 @@ html,body {
     /*transform-style: preserve-3d;*/
 }
 
-.slider2 {
-    height: 20%;
-    border: 3px solid #FFFF00;
-    border-radius: 5px;
-    position: relative;
-    width: 90%;
-    /*-webkit-perspective: 1000px;*/
-    /*-moz-perspective: 1000px;*/
-    /*-ms-perspective: 1000px;*/
-    /*-o-perspective: 1000px;*/
-    /*perspective: 1000px;*/
-
-    /*-webkit-transform-style: preserve-3d;*/
-    /*-moz-transform-style: preserve-3d;*/
-    /*-ms-transform-style: preserve-3d;*/
-    /*-o-transform-style: preserve-3d;*/
-    /*transform-style: preserve-3d;*/
-}
-
 .slide {
     position: absolute;
     top: 40px;
     left: 0;
+    max-height: 92%;
+    max-width: 100%;
+    width: auto;
+    height : auto;
 }
-.slide2 {
-    position: absolute;
-    top: 0px;
-    left: 0;
-}
+
 .slide.ng-hide-add {
     /*opacity:1;*/
 

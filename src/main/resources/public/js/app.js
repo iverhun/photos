@@ -48,8 +48,11 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys', 'cp.ng.fix-
         // initial image index
         $scope._Index1 = 0;
         $scope._Index2 = 1;
+
+        $scope.preLeftImageData = "";
         $scope.leftImageData = "";
         $scope.rightImageData = "";
+        $scope.postRightImageData = "";
 
         var loadPhoto = function (url, myCallback) {
             console.log("Loading image from ", url, "; callback: ", myCallback)
@@ -70,21 +73,53 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys', 'cp.ng.fix-
                 });
         }
 
-        var xxx = function (context) {
+        var xxx = function (context, direction) {
+            var preLeftUrl = $scope.photos[prev($scope._Index1)].src
             var leftUrl = $scope.photos[$scope._Index1].src
             var rightUrl = $scope.photos[$scope._Index2].src
+            var postRightUrl = $scope.photos[next($scope._Index2)].src
+
             console.log(context, ": index 1: ", $scope._Index1, "; index 2: ", $scope._Index2, "; leftUrl: ", leftUrl, "; rightUrl: ", rightUrl)
 
-            loadPhoto(leftUrl, function(img) {
-                $scope.leftImageData = img.toDataURL("image/jpeg");
-                $scope.$digest()
-            });
+            if (direction == "next") {
+                $scope.preLeftImageData = $scope.leftImageData;
+                $scope.leftImageData = $scope.rightImageData;
+                $scope.rightImageData = $scope.postRightImageData;
 
-            loadPhoto(rightUrl, function(img) {
-                $scope.rightImageData = img.toDataURL("image/jpeg");
-                $scope.$digest()
-            });
+                loadPhoto(postRightUrl, function (img) {
+                    $scope.postRightImageData = img.toDataURL("image/jpeg");
+                    $scope.$digest()
+                });
+            } else if (direction == "prev"){
+                $scope.postRightImageData = $scope.rightImageData
+                $scope.rightImageData = $scope.leftImageData
+                $scope.leftImageData = $scope.preLeftImageData
 
+                loadPhoto(preLeftUrl, function (img) {
+                    $scope.preLeftImageData = img.toDataURL("image/jpeg");
+                    $scope.$digest()
+                });
+            } else {
+                loadPhoto(preLeftUrl, function (img) {
+                    $scope.preLeftImageData = img.toDataURL("image/jpeg");
+                    $scope.$digest()
+                });
+
+                loadPhoto(leftUrl, function (img) {
+                    $scope.leftImageData = img.toDataURL("image/jpeg");
+                    $scope.$digest()
+                });
+
+                loadPhoto(rightUrl, function (img) {
+                    $scope.rightImageData = img.toDataURL("image/jpeg");
+                    $scope.$digest()
+                });
+
+                loadPhoto(postRightUrl, function (img) {
+                    $scope.postRightImageData = img.toDataURL("image/jpeg");
+                    $scope.$digest()
+                });
+            }
         }
 
         $scope.loadPhotos = function () {
@@ -102,7 +137,7 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys', 'cp.ng.fix-
             $scope._Index1 = prev($scope._Index1);
             $scope._Index2 = prev($scope._Index2);
 
-            xxx("prev")
+            xxx("prev", "prev")
         };
 
         // show next image
@@ -110,7 +145,7 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys', 'cp.ng.fix-
             $scope._Index1 = next($scope._Index1);
             $scope._Index2 = next($scope._Index2);
 
-            xxx("next")
+            xxx("next", "next")
         };
 
         $scope.total = function () {
