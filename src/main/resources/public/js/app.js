@@ -9,7 +9,7 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys', 'cp.ng.fix-
             combo: 'right',
             description: 'This one goes to 11',
             callback: function() {
-                console.log("right")
+                //console.log("right")
                 $scope.moveToNext()
             }
         });
@@ -18,7 +18,7 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys', 'cp.ng.fix-
             combo: 'left',
             description: 'This one goes to 11',
             callback: function() {
-                console.log("left")
+                //console.log("left")
                 $scope.moveToPrev()
             }
         });
@@ -48,10 +48,50 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys', 'cp.ng.fix-
         // initial image index
         $scope._Index1 = 0;
         $scope._Index2 = 1;
+        $scope.leftImageData = "";
+        $scope.rightImageData = "";
+
+        var loadPhoto = function (url, myCallback) {
+            console.log("Loading image from ", url, "; callback: ", myCallback)
+            $http.get(url, {responseType: "blob"})
+                .success(function (imageBlob, status, headers, config) {
+                    var orientation = 1;
+
+                    loadImage.parseMetaData(imageBlob, function (data) {
+                        if (data.exif) {
+                            orientation = data.exif.get('Orientation')
+                        }
+
+                        loadImage(imageBlob, function (img) {
+                            myCallback(img);
+                            //document.getElementById("leftPhotoCanvas").getContext("2d").drawImage(img, 0, 0, 100, 100)
+                        }, {orientation: orientation, maxWidth: 1000})
+                    });
+                });
+        }
+
+        var xxx = function (context) {
+            var leftUrl = $scope.photos[$scope._Index1].src
+            var rightUrl = $scope.photos[$scope._Index2].src
+            console.log(context, ": index 1: ", $scope._Index1, "; index 2: ", $scope._Index2, "; leftUrl: ", leftUrl, "; rightUrl: ", rightUrl)
+
+            loadPhoto(leftUrl, function(img) {
+                $scope.leftImageData = img.toDataURL("image/jpeg");
+                $scope.$digest()
+            });
+
+            loadPhoto(rightUrl, function(img) {
+                $scope.rightImageData = img.toDataURL("image/jpeg");
+                $scope.$digest()
+            });
+
+        }
 
         $scope.loadPhotos = function () {
             $http.get('http://localhost:8080/photos').then(function (response) {
                 $scope.photos = response.data;
+
+                xxx("load")
             });
         }
 
@@ -61,6 +101,8 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys', 'cp.ng.fix-
         $scope.moveToPrev = function () {
             $scope._Index1 = prev($scope._Index1);
             $scope._Index2 = prev($scope._Index2);
+
+            xxx("prev")
         };
 
         // show next image
@@ -68,42 +110,8 @@ angular.module('example366', ['ngAnimate', 'ngTouch', 'cfp.hotkeys', 'cp.ng.fix-
             $scope._Index1 = next($scope._Index1);
             $scope._Index2 = next($scope._Index2);
 
-            var leftPhoto = document.getElementById("leftPhoto");
-
-            var imageUrl = leftPhoto.src;
-            var orientation = 1;
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', leftPhoto.src, true);
-
-            xhr.responseType = 'blob';
-            xhr.onload = function(e) {
-                if (this.status == 200) {
-                    var myBlob = this.response;
-                    loadImage.parseMetaData(myBlob, function (data) {
-                        if (data.exif) {
-                            console.log("Orientation: " + data.exif.get('Orientation'), imageUrl)
-                            orientation = data.exif.get('Orientation')
-                        }
-                    })
-                }
-            };
-            xhr.send();
-
-            var rightPhoto = document.getElementById("rightPhoto");
-            loadImage(rightPhoto.src, function(img) {
-                //document.body.appendChild(img);
-                leftPhoto.src = img.toDataURL("image/png")
-            }, {orientation: orientation})
-
-            // loadImage(rightPhoto.src, function(img) {
-            //     document.body.appendChild(img);
-            // }, {maxWidth: 100, canvas: true, orientation: 3})
+            xxx("next")
         };
-
-        $scope.getUrl = function (description) {
-
-        }
 
         $scope.total = function () {
             return $scope.photos.length

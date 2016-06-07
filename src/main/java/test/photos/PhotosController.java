@@ -16,7 +16,8 @@ import java.util.Stack;
 @RestController
 public class PhotosController {
 
-    public static final String PATH = "/Users/ivanverhun/Pictures/Photos Library.photoslibrary/Masters/2016/05/03/20160503-195853/";
+//    public static final String PATH = "/Users/ivanverhun/Pictures/Photos Library.photoslibrary/Masters/2016/05/03/20160503-195853/";
+    public static final String PATH = "/Users/ivanverhun/tmp/photos/";
 
     //    private final Set<String> removedPhotos = new HashSet<>();
     private final Stack<UpdateCommand> updateCommands = new Stack<>();

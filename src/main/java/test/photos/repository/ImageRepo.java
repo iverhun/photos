@@ -3,12 +3,14 @@ package test.photos.repository;
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
+import javafx.collections.transformation.SortedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import test.photos.model.Image;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.sun.tools.doclets.formats.html.markup.HtmlStyle.description;
 
@@ -41,7 +43,7 @@ public class ImageRepo {
         ODatabaseRecordThreadLocal.INSTANCE.set(objectDb.getUnderlying());
 
         List<Image> result = objectDb.query(
-                new OSQLSynchQuery<Image>("SELECT * FROM Image WHERE removed = false"));
+                new OSQLSynchQuery<Image>("SELECT * FROM Image WHERE removed = false ORDER BY src ASC"));
         return result;
     }
 
@@ -52,7 +54,7 @@ public class ImageRepo {
         objectDb.browseClass(Image.class).forEach(image -> images.add(image));
         images.stream().forEach(i -> objectDb.detach(i));
 
-        return images;
+        return images.stream().sorted((a, b) -> a.getSrc().compareTo(b.getSrc())).collect(Collectors.toList());
     }
 
     public Image save(Image image) {
